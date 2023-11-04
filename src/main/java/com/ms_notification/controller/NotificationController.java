@@ -3,6 +3,7 @@ package com.ms_notification.controller;
 import com.ms_notification.dto.NotificationDto;
 import com.ms_notification.service.Convert;
 import com.ms_notification.service.NotificationService;
+import com.ms_notification.util.ResponseDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,11 +25,13 @@ public class NotificationController {
     private final Convert convert;
 
     @PostMapping(value = "/save")
-    public void save(@RequestBody @Valid List<NotificationDto> notificationDtoList){
+    public ResponseDto save(@RequestBody @Valid List<NotificationDto> notificationDtoList){
         try {
             notificationService.saveAll(convert.toNotificationList(notificationDtoList));
         }catch (RuntimeException e){
             log.error(e.getMessage());
+            return ResponseDto.builder().code(404).message("save fail").build();
         }
+        return ResponseDto.builder().code(200).message("save success").build();
     }
 }
