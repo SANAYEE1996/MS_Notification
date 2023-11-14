@@ -44,6 +44,10 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
     implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+
+    implementation group: 'com.jayway.jsonpath', name: 'json-path', version: '2.5.0'
+
+
 }
 
 tasks.named('test') {

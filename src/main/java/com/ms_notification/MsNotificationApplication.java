@@ -1,10 +1,16 @@
 package com.ms_notification;
 
+import com.jayway.jsonpath.DocumentContext;
+import com.jayway.jsonpath.JsonPath;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
+import java.net.URI;
 import java.time.Duration;
 
 @Slf4j
@@ -15,19 +21,33 @@ public class MsNotificationApplication {
 
         SpringApplication.run(MsNotificationApplication.class, args);
 
-        String[] singers = {"임재범", "박정현", "이재훈", "박효신", "김범수"};
+        URI worldTimeUri = UriComponentsBuilder.newInstance().scheme("http")
+                .host("worldtimeapi.org")
+                .port(80)
+                .path("/api/timezone/Asia/Seoul")
+                .build()
+                .encode()
+                .toUri();
 
-        log.info("### Concert start");
+        Mono<String> mono = getWorldTime(worldTimeUri).cache();
+        mono.subscribe(dateTime -> log.info("# dateTime 1: {}", dateTime));
+        Thread.sleep(2000);
+        mono.subscribe(dateTime -> log.info("# dateTime 2: {}", dateTime));
 
-        Flux<String> concertFlux = Flux.fromArray(singers).delayElements(Duration.ofSeconds(1)).share();
+        Thread.sleep(2000);
+    }
 
-        concertFlux.subscribe(singer -> log.info("# 박영상 is watching {}'s song", singer));
-
-        Thread.sleep(2500);
-
-        concertFlux.subscribe(singer -> log.info("# 홍길동 is watching {}'s song", singer));
-
-        Thread.sleep(3000);
+    private static Mono<String> getWorldTime(URI worldTimeUri){
+        return WebClient.create()
+                .get()
+                .uri(worldTimeUri)
+                .retrieve()
+                .bodyToMono(String.class)
+                .map(response -> {
+                    DocumentContext jsonContext = JsonPath.parse(response);
+                    String dateTime = jsonContext.read("$.datetime");
+                    return dateTime;
+                });
     }
 
 }
