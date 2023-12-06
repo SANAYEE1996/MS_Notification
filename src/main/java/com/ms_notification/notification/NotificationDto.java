@@ -1,4 +1,4 @@
-package com.ms_notification.dto;
+package com.ms_notification.notification;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

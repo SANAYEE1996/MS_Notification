@@ -1,7 +1,9 @@
 package com.ms_notification.service;
 
-import com.ms_notification.document.Notification;
-import com.ms_notification.dto.NotificationDto;
+import com.ms_notification.notification.Convert;
+import com.ms_notification.notification.Notification;
+import com.ms_notification.notification.NotificationDto;
+import com.ms_notification.notification.NotificationService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

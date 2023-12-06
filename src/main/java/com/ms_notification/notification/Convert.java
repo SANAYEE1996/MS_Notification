@@ -1,7 +1,5 @@
-package com.ms_notification.service;
+package com.ms_notification.notification;
 
-import com.ms_notification.document.Notification;
-import com.ms_notification.dto.NotificationDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

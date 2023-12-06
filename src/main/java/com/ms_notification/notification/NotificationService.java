@@ -1,10 +1,9 @@
-package com.ms_notification.service;
+package com.ms_notification.notification;
 
-import com.ms_notification.document.Notification;
-import com.ms_notification.repository.NotificationRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -15,7 +14,8 @@ public class NotificationService {
 
     private final NotificationRepository notificationRepository;
 
-    public void saveAll(List<Notification> notificationList){
-        notificationRepository.saveAll(notificationList);
+    public Mono<String> saveAll(List<Notification> notificationList){
+        return notificationRepository.saveAll(notificationList).collectList()
+                .flatMap(req -> Mono.just("save success"));
     }
 }

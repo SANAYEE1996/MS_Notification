@@ -1,4 +1,4 @@
-package com.ms_notification.document;
+package com.ms_notification.notification;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
