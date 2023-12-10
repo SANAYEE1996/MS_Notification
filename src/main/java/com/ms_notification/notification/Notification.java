@@ -20,21 +20,21 @@ public class Notification {
     private String id;
 
     @Indexed
-    private Long schedule_id;
+    private Long schedule;
 
     @Indexed
-    private Long member_id;
+    private Long member;
 
-    private String member_email;
+    private String email;
 
     private String title;
 
     private String time;
 
-    public Notification(Long schedule_id, Long member_id, String member_email, String title, String time) {
-        this.schedule_id = schedule_id;
-        this.member_id = member_id;
-        this.member_email = member_email;
+    public Notification(Long schedule, Long member, String member_email, String title, String time) {
+        this.schedule = schedule;
+        this.member = member;
+        this.email = member_email;
         this.title = title;
         this.time = time;
     }

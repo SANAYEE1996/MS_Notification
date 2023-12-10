@@ -18,4 +18,9 @@ public class NotificationService {
         return notificationRepository.saveAll(notificationList).collectList()
                 .flatMap(req -> Mono.just("save success"));
     }
+
+    public Mono<String> deleteBySchedule(Long id){
+        return notificationRepository.deleteBySchedule(id)
+                .flatMap(req -> Mono.just("notification delete success"));
+    }
 }
