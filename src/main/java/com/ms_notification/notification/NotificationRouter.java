@@ -17,6 +17,8 @@ public class NotificationRouter {
     public RouterFunction<?> routeNotification(NotificationHandler handler){
         return route()
                 .POST("/notification/save", accept(MediaType.APPLICATION_JSON), handler::save)
+                .POST("/notification/update", accept(MediaType.APPLICATION_JSON), handler::update)
+                .GET("/notification/delete/{id}", handler::delete)
                 .build();
     }
 }
