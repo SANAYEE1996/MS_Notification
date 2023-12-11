@@ -5,5 +5,5 @@ import reactor.core.publisher.Mono;
 
 public interface NotificationRepository extends ReactiveMongoRepository<Notification, String> {
 
-    Mono<Integer> deleteBySchedule(Long id);
+    Mono<Void> deleteBySchedule(Long id);
 }

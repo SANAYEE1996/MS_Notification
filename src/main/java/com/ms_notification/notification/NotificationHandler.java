@@ -37,16 +37,16 @@ public class NotificationHandler {
                     if(req.getScheduleId() == null) throw new RuntimeException("Schedule Id must not be null");
                 })
                 .flatMap(req -> Mono.zip(Mono.just(req.getDtoList()), Mono.just(req.getScheduleId())))
-                .flatMap(req -> Mono.zip(Mono.just(req.getT1()), notificationService.deleteBySchedule(req.getT2())))
+                .flatMap(req -> Mono.zip(Mono.just(req.getT1()), Mono.just(notificationService.deleteBySchedule(req.getT2()))))
                 .flatMap(req -> notificationService.saveAll(convert.toNotificationList(req.getT1())))
-                .flatMap(req -> ServerResponse.ok().bodyValue(req))
+                .flatMap(req -> ServerResponse.ok().bodyValue("notify server update success"))
                 .onErrorResume(req -> ServerResponse.badRequest().bodyValue(req.getMessage()));
     }
 
     public Mono<ServerResponse> delete(ServerRequest request){
         Long id = Long.valueOf(request.pathVariable("id"));
-        return notificationService.deleteBySchedule(id)
-                .flatMap(req -> ServerResponse.ok().bodyValue(req))
+        return Mono.just(notificationService.deleteBySchedule(id))
+                .flatMap(req -> ServerResponse.ok().bodyValue("notify server delete success"))
                 .onErrorResume(req -> ServerResponse.badRequest().bodyValue(req.getMessage()));
     }
 }

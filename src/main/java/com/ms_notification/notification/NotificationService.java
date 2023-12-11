@@ -3,6 +3,7 @@ package com.ms_notification.notification;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import reactor.core.Disposable;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
@@ -19,8 +20,7 @@ public class NotificationService {
                 .flatMap(req -> Mono.just("save success"));
     }
 
-    public Mono<String> deleteBySchedule(Long id){
-        return notificationRepository.deleteBySchedule(id)
-                .flatMap(req -> Mono.just("notification delete success"));
+    public Disposable deleteBySchedule(Long id){
+        return notificationRepository.deleteBySchedule(id).subscribe();
     }
 }
